@@ -20,13 +20,10 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Build
-        working-directory: frontend
-        run: npm run build
+      - name: Netlify Build & Deploy
+        run: npx netlify-cli deploy --build --prod
         env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-
-      - name: Deploy to Netlify
-        working-directory: frontend
-        run: npx netlify-cli deploy --dir=.next --prod --site=${{ secrets.NETLIFY_SITE_ID }} --auth=${{ secrets.NETLIFY_AUTH_TOKEN }}
